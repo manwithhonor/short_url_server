@@ -16,6 +16,9 @@ class AppSettings(BaseSettings):
         # "127.0.0.1",
         "56.24.15.106"
     ]
+    secret_key: str
+    algorithm: str
+    access_token_expire_minutes: int
 
     class Config:
         env_file = '.env'
