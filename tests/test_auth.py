@@ -5,8 +5,8 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 client = TestClient(app)
-fake = faker.Faker()
 
+fake = faker.Faker()
 client.fake_user_email = fake.email()
 client.fake_user_password = fake.password()
 client.fake_user_name = fake.first_name()

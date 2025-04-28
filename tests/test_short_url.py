@@ -10,7 +10,6 @@ def test_read_main():
     assert response.status_code == 200
     assert response.text == 'Welcome to Short URL Service (SUS)'
 
-
 def test_short_url():
     response = client.post('api/short_url/', json={"full_url": "https://www.google.com/"})
     assert response.status_code == 201

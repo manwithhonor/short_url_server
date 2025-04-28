@@ -1,19 +1,17 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
-from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from fastapi.security import OAuth2PasswordBearer
+
 from core import config
 from db.db import DBConnector
 from src.auth import auth_handler
 from src.models.user import User as user_model
 from src.schemas.user import User as user_schema
-from src.schemas.user import UserFromDB
-from typing import Annotated
 
 db_connector = DBConnector()
 get_session = db_connector.get_session
@@ -25,8 +23,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
              status_code=status.HTTP_201_CREATED,
              response_model=int,
              summary = 'Добавить пользователя')
-async def create_user(user: user_schema,
-                session: AsyncSession = Depends(get_session)):
+async def create_user(user: user_schema, session: AsyncSession = Depends(get_session)):
     new_user = user_model(
         user_name=user.user_name,
         password=auth_handler.get_password_hash(user.password)
@@ -84,6 +81,6 @@ def show_access_token(token: str = Depends(oauth2_scheme)):
             response_model=int,
             summary = 'Получить ID вошедшего пользователя')
 async def get_current_user(token: str = Depends(oauth2_scheme),
-                     db_session: AsyncSession = Depends(get_session)):
+                           db_session: AsyncSession = Depends(get_session)):
     current_user = await auth_handler.get_current_user(token, db_session)
     return current_user.user_id
