@@ -4,10 +4,12 @@ from db.db import DBConnector
 from fastapi import APIRouter, Request, HTTPException, status
 from fastapi.responses import PlainTextResponse
 
-from .short_url import router
+from .short_url import router as short_url_router
+from .auth import router as auth_router
 
 api_router = APIRouter()
-api_router.include_router(router, prefix="/short_url", tags=["short_url"])
+api_router.include_router(short_url_router, prefix="/short_url", tags=["short urls"])
+api_router.include_router(auth_router, prefix="/auth", tags=["security"])
 db_connector = DBConnector()
 
 
