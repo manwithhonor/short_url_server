@@ -1,11 +1,10 @@
 fastapi==0.79.0
 pydantic==1.9.0
 uvicorn==0.18.2
-uvloop==0.14.0; sys_platform != "win32" and implementation_name == "cpython"
+uvloop==0.14.0; sys_platform != "win32" and implementation_name == "cpython" and platform_machine != "aarch64"
 SQLAlchemy==1.4.41
 SQLAlchemy-Utils==0.38.3
 asyncpg==0.26.0
-psycopg2-binary==2.9.3
 databases[postgresql]==0.6.1
 python-dotenv==1.0.1
 alembic==1.15.2
